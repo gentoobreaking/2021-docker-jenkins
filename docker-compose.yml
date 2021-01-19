@@ -4,7 +4,7 @@ services:
     build:
       context: ./          
     #image: jenkinsci/blueocean
-    image: 2021-jenkins
+    image: 2021-docker-jenkins
     container_name: jenkins
     hostname: jenkins
     privileged: true
@@ -16,9 +16,9 @@ services:
       - '50000:50000'
     volumes:
       # mkdir -p ./data/jenkins_home ./data/data  && chmod 777 ./data/jenkins_home && umask 0002
-      - ./data/jenkins_home:/var/jenkins_home
-      - ./data/data:/data
-      - /var/run/docker.sock:/var/run/docker.sock # linux use
+       - ./data/jenkins_home:/var/jenkins_home
+       - ./data/data:/data
+       - /var/run/docker.sock:/var/run/docker.sock # linux use
       ## - ../newman-src:/opt/newman-src
     restart: always
     logging:
@@ -29,3 +29,4 @@ services:
     network_mode: "host"
     #command: mkdir /opt/newman-src/templates /opt/newman-src/environments /opt/newman-src/reports
     #command: sudo chown -R jenkins:jenkins /opt/newman-src
+    #entrypoint: ["/sbin/tini","--","/usr/local/bin/jenkins.sh"]
