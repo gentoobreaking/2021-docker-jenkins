@@ -207,13 +207,16 @@ RUN cd /usr/local/bin && \
 # install maven
 RUN apk add maven
 
+# install docker
+RUN apk -U add docker
+
 # clear apk cache
 RUN apk del --purge deps && \
     rm -f /var/cache/apk/*
 
-USER ${user}
 ### customize part - end
 
+USER ${user}
 ENTRYPOINT ["/sbin/tini" "--" "/usr/local/bin/jenkins.sh"]
 COPY ./install-plugins.sh /usr/local/bin/install-plugins.sh 
 
@@ -222,16 +225,6 @@ COPY ./install-plugins.sh /usr/local/bin/install-plugins.sh
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 ### customize part - end
-
-USER root
-RUN apk -U add docker
-USER jenkins
 RUN install-plugins.sh antisamy-markup-formatter matrix-auth blueocean:$BLUEOCEAN_VERSION
-
-### customize part - begin
-# clear apk cache
-RUN apk del --purge deps && \
-    rm -f /var/cache/apk/*
-### customize part - end
 
 # --- END --- #
