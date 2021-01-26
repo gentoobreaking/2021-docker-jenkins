@@ -82,8 +82,9 @@ RUN curl -L ${BASE_URL}/${TAR_FILE} |tar xvz && \
 #RUN apk add -t deps libc6-compat py-pip python3 && \
 RUN mv /usr/glibc-compat/lib/ld-linux-x86-64.so.2 /usr/glibc-compat/lib/ld-linux-x86-64.so && \
     ln -s /usr/glibc-compat/lib/ld-linux-x86-64.so /usr/glibc-compat/lib/ld-linux-x86-64.so.2
-RUN apk add -t deps py-pip python3 && \
-    pip install awscli
+RUN apk add -t deps py-pip python3 aws-cli
+#RUN apk add -t deps py-pip python3 && \
+#    pip install awscli
 
 RUN cd /usr/local/bin && \
     curl -L https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -o terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
